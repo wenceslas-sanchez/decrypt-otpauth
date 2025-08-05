@@ -9,7 +9,7 @@ class NSKeyedUnarchiver(Unarchiver):
 
     def __init__(self, data: bytes):
         self._plist = self._load_plist(data)
-        self._objects = self._plist.get("$objects", {})
+        self._objects = self._plist.get("$objects", [])
 
         self._cache = {}
 
@@ -41,8 +41,8 @@ class NSKeyedUnarchiver(Unarchiver):
         if not isinstance(raw_obj, dict):  # primitive types
             return raw_obj
 
-        if class_ref is None:
         class_ref = raw_obj.get("$class")
+        if not isinstance(class_ref, plistlib.UID):
             return raw_obj
 
         class_info = self._objects[class_ref.data]
