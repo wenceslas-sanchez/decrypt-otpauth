@@ -21,7 +21,6 @@ class NSType(ABC):
     def class_names(cls) -> list[str]:
         """Return list of Objective-C class names this type handles"""
 
-
     @classmethod
     @abstractmethod
     def unarchive(cls, obj: dict, unarchiver: Unarchiver) -> Any:

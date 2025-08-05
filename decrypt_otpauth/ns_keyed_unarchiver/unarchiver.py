@@ -19,7 +19,7 @@ class NSKeyedUnarchiver(Unarchiver):
             "version": self._plist.get("$version"),
             "archiver": self._plist.get("$archiver"),
             "object_count": len(self._objects),
-            "top_keys": list(self._plist.get("$top", {}).keys())
+            "top_keys": list(self._plist.get("$top", {}).keys()),
         }
 
     def unarchive(self):
@@ -41,12 +41,12 @@ class NSKeyedUnarchiver(Unarchiver):
         if not isinstance(raw_obj, dict):  # primitive types
             return raw_obj
 
-        class_ref = raw_obj.get('$class')
         if class_ref is None:
+        class_ref = raw_obj.get("$class")
             return raw_obj
 
         class_info = self._objects[class_ref.data]
-        class_name = class_info.get('$classname')
+        class_name = class_info.get("$classname")
         result = self._registry.unarchive(class_name, raw_obj, self)
 
         self._cache[index] = result
@@ -73,7 +73,7 @@ class NSKeyedUnarchiver(Unarchiver):
     def _resolve_refs_in_dict(self, d: dict) -> dict:
         result = {}
         for key, value in d.items():
-            if key.startswith('$'):  # skip metadata keys
+            if key.startswith("$"):  # skip metadata keys
                 continue
             result[key] = self._resolve_ref(value)
         return result

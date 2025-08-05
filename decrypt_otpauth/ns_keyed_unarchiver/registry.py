@@ -1,7 +1,15 @@
 from typing import Any
 
-from decrypt_otpauth.ns_keyed_unarchiver.types_ import NSType, NSData, NSDate, NSArray, NSNumber, NSString, \
-    NSDictionary, Unarchiver
+from decrypt_otpauth.ns_keyed_unarchiver.types_ import (
+    NSType,
+    NSData,
+    NSDate,
+    NSArray,
+    NSNumber,
+    NSString,
+    NSDictionary,
+    Unarchiver,
+)
 
 
 class NSTypeRegistry:
