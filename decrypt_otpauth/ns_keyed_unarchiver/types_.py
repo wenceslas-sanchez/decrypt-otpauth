@@ -114,13 +114,14 @@ class NSDictionary(NSType):
         return ["NSDictionary", "NSMutableDictionary"]
 
     @classmethod
-    def unarchive(cls, obj: dict, unarchiver: Unarchiver) -> dict[Any, Any]:
-        keys = obj.get("NS.keys", [])
-        values = obj.get("NS.objects", [])
-
-        result = {}
-        for key_ref, value_ref in zip(keys, values):
-            key = unarchiver._resolve_ref(key_ref)
-            value = unarchiver._resolve_ref(value_ref)
-            result[key] = value
-        return result
+    def unarchive(cls, obj: dict, unarchiver: Unarchiver) -> dict:
+        if "NS.keys" in obj and "NS.objects" in obj:
+            keys = obj.get("NS.keys", [])
+            values = obj.get("NS.objects", [])
+            result = {}
+            for key_uid, value_uid in zip(keys, values):
+                key = unarchiver._resolve_ref(key_uid)
+                value = unarchiver._resolve_ref(value_uid)
+                result[key] = value
+            return result
+        return unarchiver._resolve_refs_in_dict(obj)
