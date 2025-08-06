@@ -3,6 +3,7 @@ import hmac
 from dataclasses import dataclass
 
 from decrypt_otpauth.core.decrypt import decrypt_aes_cbc
+from decrypt_otpauth.core.decryptor import Decryptor
 
 
 @dataclass
@@ -48,7 +49,7 @@ class RNCryptorComponents:
             raise ValueError(msg)
 
 
-class RNCryptorDecryptor:
+class RNCryptorDecryptor(Decryptor):
     """Decryptor for RNCryptor format"""
 
     SALT_SIZE = 8
