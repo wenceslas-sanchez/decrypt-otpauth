@@ -49,7 +49,7 @@ class RNCryptorComponents:
 
 
 class RNCryptorDecryptor:
-    """Decryptor for RNCryptor format using hashlib and cryptography"""
+    """Decryptor for RNCryptor format"""
 
     SALT_SIZE = 8
     IV_SIZE = 16
