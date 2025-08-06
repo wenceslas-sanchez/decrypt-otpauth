@@ -2,8 +2,8 @@ import hashlib
 import hmac
 from dataclasses import dataclass
 
-from decrypt_otpauth.core.decrypt import decrypt_aes_cbc
-from decrypt_otpauth.core.decryptor import Decryptor
+from decrypt_otpauth.decryptors.decrypt import decrypt_aes_cbc
+from decrypt_otpauth.decryptors.decryptor import Decryptor
 
 
 @dataclass
