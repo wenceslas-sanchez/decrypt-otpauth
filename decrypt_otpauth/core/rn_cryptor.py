@@ -59,37 +59,27 @@ class RNCryptorDecryptor:
 
     def decrypt(self, data: bytes, password: str) -> bytes:
         """Main decryption method"""
+        password_bytes = password.encode("utf-8")
 
         components = RNCryptorComponents.from_bytes(data)
-        keys = self._derive_keys(password.encode("utf-8"), components)
-        self._check_hmac(components, keys["hmac_key"])
+        self._check_hmac(components, password_bytes)
 
-        return decrypt_aes_cbc(
-            components.ciphertext, keys["encryption_key"], components.iv
+        encryption_key = self._derive_key(password_bytes, components.encryption_salt)
+        return decrypt_aes_cbc(components.ciphertext, encryption_key, components.iv)
+
+    def _derive_key(self, password_bytes: bytes, salt: bytes) -> bytes:
+        return hashlib.pbkdf2_hmac(
+            "sha1",
+            password_bytes,
+            salt,
+            self.PBKDF2_ITERATIONS,
+            self.KEY_SIZE,
         )
 
-    def _derive_keys(
-        self, password_bytes: bytes, components: RNCryptorComponents
-    ) -> dict:
-        return {
-            "encryption_key": hashlib.pbkdf2_hmac(
-                "sha1",
-                password_bytes,
-                components.encryption_salt,
-                self.PBKDF2_ITERATIONS,
-                self.KEY_SIZE,
-            ),
-            "hmac_key": hashlib.pbkdf2_hmac(
-                "sha1",
-                password_bytes,
-                components.hmac_salt,
-                self.PBKDF2_ITERATIONS,
-                self.KEY_SIZE,
-            ),
-        }
-
-    @staticmethod
-    def _check_hmac(components: RNCryptorComponents, hmac_key: bytes) -> None:
+    def _check_hmac(
+        self, components: RNCryptorComponents, password_bytes: bytes
+    ) -> None:
+        hmac_key = self._derive_key(password_bytes, components.hmac_salt)
         expected_hmac = hmac.new(
             hmac_key, components.header_and_ciphertext, hashlib.sha256
         ).digest()
