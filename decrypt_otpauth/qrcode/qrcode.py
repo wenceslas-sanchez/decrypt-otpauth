@@ -3,6 +3,8 @@ import urllib.request
 from PIL import Image
 import io
 
+QR_URL_API = "https://api.qrserver.com/v1/create-qr-code/"
+
 
 def fetch_and_display(uri: str) -> None:
     qr_code = _fetch_qrcode(uri)
@@ -29,7 +31,6 @@ def _fetch_qrcode(uri) -> bytes:
 
 
 def _create_qr_url_via_api(uri: str):
-    base_url = "https://api.qrserver.com/v1/create-qr-code/"
     params = urllib.parse.urlencode(
         {
             "data": uri,
@@ -37,4 +38,4 @@ def _create_qr_url_via_api(uri: str):
             "size": "200x200",
         }
     )
-    return f"{base_url}?{params}"
+    return f"{QR_URL_API}?{params}"
