@@ -13,7 +13,7 @@ class OneTimePasswordType(enum.Enum):
         return self.name.lower()
 
 
-class OtpAccount(NSType):
+class NSAccount(NSType):
     """Handler for Account objects from NSKeyedArchiver"""
 
     @classmethod
@@ -37,7 +37,7 @@ class OtpAccount(NSType):
         return Account(**account_data).to_dict()
 
 
-class OtpFolder(NSType):
+class NSFolder(NSType):
     """Handler for OTPFolder objects from NSKeyedArchiver"""
 
     @classmethod
