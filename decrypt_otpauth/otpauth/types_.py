@@ -3,7 +3,7 @@ from decrypt_otpauth.otpauth.algorithm import Algorithm
 from decrypt_otpauth.ns_keyed_unarchiver.types_ import NSType, Unarchiver
 
 
-class OtpAccountType(enum.Enum):
+class OneTimePasswordType(enum.Enum):
     Unknown = 0
     HOTP = 1
     TOTP = 2
@@ -32,7 +32,7 @@ class OtpAccount(NSType):
         self.secret = secret
         self.label = label
         self.period = period
-        self.type = OtpAccountType(type)
+        self.type = OneTimePasswordType(type)
         self.issuer = issuer
         self.digits = digits
         self.algorithm = Algorithm(algorithm)
