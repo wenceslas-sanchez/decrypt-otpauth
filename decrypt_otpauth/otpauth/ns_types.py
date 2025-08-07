@@ -27,7 +27,7 @@ class NSAccount(NSType):
             "secret": resolved_obj.get("secret", b""),
             "label": resolved_obj.get("label", ""),
             "period": resolved_obj.get("period", 30),
-            "type": resolved_obj.get("type", 0),
+            "type_": resolved_obj.get("type_", 0),
             "issuer": resolved_obj.get("issuer"),
             "digits": resolved_obj.get("digits", 6),
             "algorithm": resolved_obj.get("algorithm", 1),
