@@ -5,13 +5,12 @@ from decrypt_otpauth.ns_keyed_unarchiver.registry import NSTypeRegistry
 
 
 class NSKeyedUnarchiver(Unarchiver):
-    _registry = NSTypeRegistry()
-
     def __init__(self, data: bytes):
         self._plist = self._load_plist(data)
         self._objects = self._plist.get("$objects", [])
 
         self._cache = {}
+        self._registry = NSTypeRegistry()
 
     @property
     def info(self) -> dict:
