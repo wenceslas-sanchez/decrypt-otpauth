@@ -2,7 +2,7 @@ import base64
 from typing import Protocol
 from urllib.parse import quote, urlencode
 
-from decrypt_otpauth.otpauth.account import Account
+from decrypt_otpauth.otpauth.types_ import Account
 
 
 class UriGenerator(Protocol):
@@ -27,7 +27,7 @@ class OtpUriGenerator:
     def get_uri(self, account: Account) -> str:
         uri_label = self.get_uri_label(account)
         uri_params = self.get_uri_parameters(account)
-        return f"{self._scheme}://{account.type.uri_value}/{uri_label}?{uri_params}"
+        return f"{self._scheme}://{account.type_.name_value}/{uri_label}?{uri_params}"
 
     def get_uri_label(self, account: Account) -> str:
         return quote(f"{account.issuer}:{account.label}")
@@ -35,7 +35,7 @@ class OtpUriGenerator:
     def get_uri_parameters(self, account: Account) -> str:
         parameters = {
             "secret": self._decode_secret(account.secret),
-            "algorithm": account.algorithm.uri_string,
+            "algorithm": account.algorithm.name_value,
             "period": account.period,
             "digits": account.digits,
             "issuer": account.issuer,
