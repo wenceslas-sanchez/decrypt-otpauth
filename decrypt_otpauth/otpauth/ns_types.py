@@ -1,5 +1,5 @@
 import enum
-from decrypt_otpauth.otpauth.algorithm import Algorithm
+from decrypt_otpauth.otpauth.types_ import Account, Folder
 from decrypt_otpauth.ns_keyed_unarchiver.types_ import NSType, Unarchiver
 
 
@@ -15,28 +15,6 @@ class OneTimePasswordType(enum.Enum):
 
 class OtpAccount(NSType):
     """Handler for Account objects from NSKeyedArchiver"""
-
-    def __init__(
-        self,
-        secret: bytes,
-        label: str,
-        period: int,
-        type: int,
-        issuer: str | None,
-        digits: int,
-        algorithm: int,
-        counter: int,
-        *args,
-        **kwargs,
-    ):
-        self.secret = secret
-        self.label = label
-        self.period = period
-        self.type = OneTimePasswordType(type)
-        self.issuer = issuer
-        self.digits = digits
-        self.algorithm = Algorithm(algorithm)
-        self.counter = counter
 
     @classmethod
     def class_names(cls) -> list[str]:
@@ -56,27 +34,11 @@ class OtpAccount(NSType):
             "counter": resolved_obj.get("counter", 0),
         }
 
-        return cls(**account_data).to_dict()
-
-    def to_dict(self) -> dict:
-        return {
-            "secret": self.secret,
-            "label": self.label,
-            "period": self.period,
-            "type": self.type.uri_value,
-            "issuer": self.issuer,
-            "digits": self.digits,
-            "algorithm": self.algorithm.uri_string,
-            "counter": self.counter,
-        }
+        return Account(**account_data).to_dict()
 
 
 class OtpFolder(NSType):
     """Handler for OTPFolder objects from NSKeyedArchiver"""
-
-    def __init__(self, name: str, accounts):
-        self.name = name
-        self.accounts = accounts or []
 
     @classmethod
     def class_names(cls) -> list[str]:
@@ -98,16 +60,4 @@ class OtpFolder(NSType):
                 unarchiver._resolve_ref(account_ref) for account_ref in accounts
             ]
 
-        return cls(name=name, accounts=accounts).to_dict()
-
-    def to_dict(self) -> dict:
-        return {
-            "name": self.name,
-            "accounts": [
-                account.to_dict() if hasattr(account, "to_dict") else account
-                for account in self.accounts
-            ],
-        }
-
-    def __getitem__(self, index):
-        return self.accounts[index]
+        return Folder(name, accounts).to_dict()
