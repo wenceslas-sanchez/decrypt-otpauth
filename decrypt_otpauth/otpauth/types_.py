@@ -44,16 +44,6 @@ class OtpAccount(NSType):
 
     @classmethod
     def unarchive(cls, obj: dict, unarchiver: Unarchiver) -> dict:
-        """
-        Unarchive an Account object from NSKeyedArchiver format.
-
-        Args:
-            obj: The raw object dictionary from NSKeyedArchiver
-            unarchiver: Reference to the unarchiver for resolving references
-
-        Returns:
-            The unarchived Account object
-        """
         resolved_obj = unarchiver._resolve_refs_in_dict(obj)
         account_data = {
             "secret": resolved_obj.get("secret", b""),
@@ -69,7 +59,6 @@ class OtpAccount(NSType):
         return cls(**account_data).to_dict()
 
     def to_dict(self) -> dict:
-        """Convert OTPAccount to dictionary representation"""
         return {
             "secret": self.secret,
             "label": self.label,
@@ -91,22 +80,10 @@ class OtpFolder(NSType):
 
     @classmethod
     def class_names(cls) -> list[str]:
-        """Return list of Objective-C class names this type handles"""
         return ["ACOTPFolder"]
 
     @classmethod
     def unarchive(cls, obj: dict, unarchiver: Unarchiver) -> dict:
-        """
-        Unarchive an OTPFolder object from NSKeyedArchiver format.
-
-        Args:
-            obj: The raw object dictionary from NSKeyedArchiver
-            unarchiver: Reference to the unarchiver for resolving references
-
-        Returns:
-            The unarchived OTPFolder object
-        """
-        # Resolve any UID references in the object dictionary
         resolved_obj = unarchiver._resolve_refs_in_dict(obj)
 
         name = resolved_obj.get("name", "")
@@ -124,7 +101,6 @@ class OtpFolder(NSType):
         return cls(name=name, accounts=accounts).to_dict()
 
     def to_dict(self) -> dict:
-        """Convert OTPFolder to dictionary representation"""
         return {
             "name": self.name,
             "accounts": [
