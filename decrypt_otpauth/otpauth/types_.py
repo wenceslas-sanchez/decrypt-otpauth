@@ -54,10 +54,7 @@ class OtpAccount(NSType):
         Returns:
             The unarchived Account object
         """
-        # Resolve any UID references in the object dictionary
         resolved_obj = unarchiver._resolve_refs_in_dict(obj)
-
-        # Extract the account data - adapt these keys to match your actual NSKeyedArchiver keys
         account_data = {
             "secret": resolved_obj.get("secret", b""),
             "label": resolved_obj.get("label", ""),
@@ -72,15 +69,15 @@ class OtpAccount(NSType):
         return cls(**account_data).to_dict()
 
     def to_dict(self) -> dict:
-        """Convert Account to dictionary representation"""
+        """Convert OTPAccount to dictionary representation"""
         return {
             "secret": self.secret,
             "label": self.label,
             "period": self.period,
-            "type": self.type.value,
+            "type": self.type.uri_value,
             "issuer": self.issuer,
             "digits": self.digits,
-            "algorithm": self.algorithm.value,
+            "algorithm": self.algorithm.uri_string,
             "counter": self.counter,
         }
 
