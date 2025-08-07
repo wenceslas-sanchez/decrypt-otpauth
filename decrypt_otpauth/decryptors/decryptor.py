@@ -2,7 +2,8 @@ from typing import Protocol
 
 
 class Decryptor(Protocol):
-    def decrypt(self, data: bytes, password: str) -> bytes:
+    @classmethod
+    def decrypt(cls, data: bytes, password: str) -> bytes:
         """Decrypt encrypted data using the provided password.
 
         Args:
