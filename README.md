@@ -19,11 +19,6 @@ uv sync
 uv run python decrypt_otpauth.py decrypt_backup --encrypted-otpauth-backup backup.otpauthdb
 ```
 
-**Decrypt a single account:**
-```bash
-uv run python decrypt_otpauth.py decrypt_account --encrypted-otpauth-account account.otpauth
-```
-
 The tool will ask for your password and display QR codes for each account.
 
 ## Requirements
