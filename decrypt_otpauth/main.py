@@ -5,7 +5,7 @@ from decrypt_otpauth.decryptors.rncryptor_decryptor import RNCryptorDecryptor
 from decrypt_otpauth.ns_keyed_unarchiver.unarchiver import NSKeyedUnarchiver
 from decrypt_otpauth.otpauth.file import read_otpauth
 from decrypt_otpauth.otpauth.ns_types import NSAccount, NSFolder
-from decrypt_otpauth.otpauth.types_ import Folder
+from decrypt_otpauth.otpauth.types_ import Folder, Account
 from decrypt_otpauth.parse_args import parse_args
 from decrypt_otpauth.qrcode.qrcode import fetch_and_display
 from decrypt_otpauth.qrcode.uri import OtpUriGenerator
@@ -45,13 +45,13 @@ class OTPAuthProcessor:
             folders[folder.name] = folder
         return folders
 
-    def _display_account(self, account):
+    def _display_account(self, account: Account) -> None:
         print(f"\nAccount {account.label}:\n")
         uri = self.uri_generator.get_uri(account)
         fetch_and_display(uri)
         input("Press Enter to continue...")
 
-    def display_all_accounts(self, folders: dict[str, Folder]):
+    def display_all_accounts(self, folders: dict[str, Folder]) -> None:
         """Display all accounts organized by folders."""
         for folder_name, folder in folders.items():
             print(f"\nFolder '{folder_name}'")
@@ -67,7 +67,7 @@ class OTPAuthProcessor:
         return self._build_folder_structure(final_data)
 
 
-def main():
+def main() -> None:
     """Main entry point for the OTPAuth decryption tool."""
     args = parse_args()
     processor = OTPAuthProcessor()
