@@ -1,0 +1,6 @@
+# Global code ownership
+* @wenceslas-sanchez
+
+# Dependency files
+pyproject.toml @wenceslas-sanchez
+uv.lock @wenceslas-sanchez

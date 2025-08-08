@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # Enable version updates for Python dependencies
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
@@ -8,8 +9,6 @@ updates:
       time: "09:00"
       timezone: "America/New_York"
     open-pull-requests-limit: 5
-    reviewers:
-      - "wenceslas-sanchez"
     commit-message:
       prefix: "deps"
       include: "scope"
@@ -23,8 +22,6 @@ updates:
       time: "09:00"
       timezone: "America/New_York"
     open-pull-requests-limit: 3
-    reviewers:
-      - "wenceslas-sanchez"
     commit-message:
       prefix: "ci"
       include: "scope"
