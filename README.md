@@ -16,7 +16,7 @@ uv sync
 
 **Decrypt a backup file:**
 ```bash
-uv run python decrypt_otpauth.py decrypt_backup --encrypted-otpauth-backup backup.otpauthdb
+uv run python -m decrypt_otpauth.main --p <YOUR .otpauth LOCATION>
 ```
 
 The tool will ask for your password and display QR codes for each account.
