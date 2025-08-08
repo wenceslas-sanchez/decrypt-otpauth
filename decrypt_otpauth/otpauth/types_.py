@@ -75,7 +75,9 @@ class Account:
 class Folder:
     def __init__(self, name: str, accounts: list[dict]):
         self.name = name
-        self.accounts = [Account(**account) for account in accounts]  # not performant but consistent (+ imply usage of ReverseEnumMixin...)
+        self.accounts = [
+            Account(**account) for account in accounts
+        ]  # not performant but consistent (+ imply usage of ReverseEnumMixin...)
 
     def to_dict(self) -> dict:
         return {
