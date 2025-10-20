@@ -12,8 +12,6 @@ updates:
     commit-message:
       prefix: "deps"
       include: "scope"
-    # Use uv to manage dependencies and update uv.lock
-    insecure-external-code-execution: allow
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
