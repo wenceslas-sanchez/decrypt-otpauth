@@ -13,7 +13,7 @@ dependencies = [
 [dependency-groups]
 lint = [
     "pre-commit==4.3.0",
-    "ruff==0.14.1",
+    "ruff==0.14.2",
 ]
 dev = [
     "pytest==8.4.2",
