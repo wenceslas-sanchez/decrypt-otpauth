@@ -14,12 +14,20 @@ uv sync
 
 ## Usage
 
-**Decrypt a backup file:**
+**Decrypt a backup file and display QR codes in terminal:**
 ```bash
 uv run python -m decrypt_otpauth.main --p <YOUR .otpauth LOCATION>
 ```
 
 The tool will ask for your password and display QR codes for each account.
+
+**Save QR codes as images:**
+```bash
+uv run python -m decrypt_otpauth.main --p <YOUR .otpauth LOCATION> --images-location <OUTPUT_DIRECTORY>
+```
+
+This will save QR codes as PNG images in the specified directory instead of displaying them in the terminal.
+Each image is named using the account label with a unique hash (e.g., `Google_Account_a1b2c3.png`).
 
 ## Requirements
 
