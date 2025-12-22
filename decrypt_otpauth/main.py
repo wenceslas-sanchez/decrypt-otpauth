@@ -7,7 +7,7 @@ from decrypt_otpauth.otpauth.file import read_otpauth
 from decrypt_otpauth.otpauth.ns_types import NSAccount, NSFolder
 from decrypt_otpauth.otpauth.types_ import Folder, Account
 from decrypt_otpauth.parse_args import parse_args
-from decrypt_otpauth.qrcode.qrcode import fetch_and_display
+from decrypt_otpauth.qrcode.qrcode import fetch_and_display, save_as_image
 from decrypt_otpauth.qrcode.uri import OtpUriGenerator
 
 
@@ -45,18 +45,26 @@ class OTPAuthProcessor:
             folders[folder.name] = folder
         return folders
 
-    def _display_account(self, account: Account) -> None:
-        print(f"\nAccount {account.label}:\n")
+    def _display_account(
+        self, account: Account, images_location: str | None = None
+    ) -> None:
         uri = self.uri_generator.get_uri(account)
-        fetch_and_display(uri)
-        input("Press Enter to continue...")
+        if images_location is None:
+            print(f"\nAccount {account.label}:\n")
+            fetch_and_display(uri)
+            input("Press Enter to continue...")
+            return
+        save_as_image(uri, images_location, account.label)
 
-    def display_all_accounts(self, folders: dict[str, Folder]) -> None:
+    def display_all_accounts(
+        self, folders: dict[str, Folder], images_location: str | None = None
+    ) -> None:
         """Display all accounts organized by folders."""
         for folder_name, folder in folders.items():
-            print(f"\nFolder '{folder_name}'")
+            if images_location is None:
+                print(f"\nFolder '{folder_name}'")
             for account in folder.accounts:
-                self._display_account(account)
+                self._display_account(account, images_location)
 
     def process_file(self, file_path: str) -> dict[str, Folder]:
         """Complete processing pipeline for an OTPAuth file."""
@@ -74,7 +82,7 @@ def main() -> None:
 
     try:
         folders = processor.process_file(args.path)
-        processor.display_all_accounts(folders)
+        processor.display_all_accounts(folders, args.images_location)
     except Exception as e:
         print(f"Error processing file: {e}")
         return 1
