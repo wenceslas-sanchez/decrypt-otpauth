@@ -5,7 +5,7 @@ description = "TODO"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "cryptography==46.0.3",
+    "cryptography==46.0.4",
     "pillow==12.1.0",
     "qrcode==8.2",
 ]
