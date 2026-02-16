@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "cryptography==46.0.5",
-    "pillow==12.1.0",
+    "pillow==12.1.1",
     "qrcode==8.2",
 ]
 
