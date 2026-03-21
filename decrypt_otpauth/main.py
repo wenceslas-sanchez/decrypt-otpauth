@@ -66,6 +66,21 @@ class OTPAuthProcessor:
             for account in folder.accounts:
                 self._display_account(account, images_location)
 
+    def export_uris(self, folders: dict[str, Folder], output_path: str) -> None:
+        """Export all accounts as otpauth:// URIs, one per line.
+
+        Args:
+            folders: Folder structure returned by process_file.
+            output_path: File path to write URIs to.
+        """
+        lines = [
+            self.uri_generator.get_uri(account)
+            for folder in folders.values()
+            for account in folder.accounts
+        ]
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+
     def process_file(self, file_path: str) -> dict[str, Folder]:
         """Complete processing pipeline for an OTPAuth file."""
         unarchived = self._load_and_unarchive(file_path)
@@ -82,7 +97,10 @@ def main() -> None:
 
     try:
         folders = processor.process_file(args.path)
-        processor.display_all_accounts(folders, args.images_location)
+        if args.export_uris is not None:
+            processor.export_uris(folders, args.export_uris)
+        else:
+            processor.display_all_accounts(folders, args.images_location)
     except Exception as e:
         print(f"Error processing file: {e}")
         return 1
