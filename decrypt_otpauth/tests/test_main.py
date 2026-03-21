@@ -67,6 +67,24 @@ def test_main_with_wrong_password(
     assert result == 1
 
 
+def test_export_uris_matches_expected_file(
+    test_file_path: Annotated[pathlib.Path, pytest.fixture],
+    test_password: Annotated[str, pytest.fixture],
+):
+    expected_uris_path = pathlib.Path(__file__).parent / "data" / "expected_uris.txt"
+
+    processor = OTPAuthProcessor()
+    with mock.patch("getpass.getpass", return_value=test_password):
+        folders = processor.process_file(str(test_file_path))
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_file = pathlib.Path(tmpdir) / "uris.txt"
+        processor.export_uris(folders, str(output_file))
+        assert output_file.read_text(encoding="utf-8") == expected_uris_path.read_text(
+            encoding="utf-8"
+        )
+
+
 def test_qr_codes_are_valid_and_decodable(
     test_file_path: Annotated[pathlib.Path, pytest.fixture],
     test_password: Annotated[str, pytest.fixture],
