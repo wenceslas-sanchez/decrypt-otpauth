@@ -1,0 +1,2 @@
+otpauth://totp/TestService%3Atest1?secret=HELLO&algorithm=sha1&period=30&digits=6&issuer=TestService&counter=0
+otpauth://totp/TestService%3Atest2?secret=OKOA&algorithm=sha1&period=30&digits=6&issuer=TestService&counter=0
