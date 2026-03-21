@@ -80,7 +80,9 @@ def test_export_uris_matches_expected_file(
     with tempfile.TemporaryDirectory() as tmpdir:
         output_file = pathlib.Path(tmpdir) / "uris.txt"
         processor.export_uris(folders, str(output_file))
-        assert output_file.read_text(encoding="utf-8") == expected_uris_path.read_text(encoding="utf-8")
+        assert output_file.read_text(encoding="utf-8") == expected_uris_path.read_text(
+            encoding="utf-8"
+        )
 
 
 def test_qr_codes_are_valid_and_decodable(
