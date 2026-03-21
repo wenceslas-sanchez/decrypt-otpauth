@@ -45,6 +45,7 @@ def test_display_all_accounts_terminal_mode(
 
     captured = capsys.readouterr()
     assert "Folder" in captured.out or "Account" in captured.out
+    assert "TestService" in captured.out
 
 
 def test_main_terminal_mode(
