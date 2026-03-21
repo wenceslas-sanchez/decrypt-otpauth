@@ -50,7 +50,7 @@ class OTPAuthProcessor:
     ) -> None:
         uri = self.uri_generator.get_uri(account)
         if images_location is None:
-            print(f"\nAccount {account.label}:\n")
+            print(f"\nAccount {account.label} ({account.issuer}):\n")
             fetch_and_display(uri)
             input("Press Enter to continue...")
             return
