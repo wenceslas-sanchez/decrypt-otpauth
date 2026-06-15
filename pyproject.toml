@@ -16,6 +16,6 @@ lint = [
     "ruff==0.15.17",
 ]
 dev = [
-    "pytest==9.0.3",
+    "pytest==9.1.0",
     "opencv-python==4.13.0.92",
 ]
