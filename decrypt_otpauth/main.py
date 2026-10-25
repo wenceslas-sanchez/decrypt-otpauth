@@ -7,6 +7,7 @@ from decrypt_otpauth.otpauth.file import read_otpauth
 from decrypt_otpauth.otpauth.ns_types import NSAccount, NSFolder
 from decrypt_otpauth.otpauth.types_ import Folder, Account
 from decrypt_otpauth.parse_args import parse_args
+from decrypt_otpauth.proton.export import FolderPlacement, ProtonExporter
 from decrypt_otpauth.qrcode.qrcode import fetch_and_display, save_as_image
 from decrypt_otpauth.qrcode.uri import OtpUriGenerator
 
@@ -81,6 +82,23 @@ class OTPAuthProcessor:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
 
+    def export_proton(
+        self,
+        folders: dict[str, Folder],
+        output_path: str,
+        folder_placement: FolderPlacement = FolderPlacement.NOTE,
+    ) -> None:
+        """Export all accounts as a Proton Authenticator JSON import file.
+
+        Args:
+            folders: Folder structure returned by process_file.
+            output_path: File path to write the JSON export to.
+            folder_placement: Whether the folder name goes in the note or the name.
+        """
+        ProtonExporter(self.uri_generator, folder_placement).export(
+            folders, output_path
+        )
+
     def process_file(self, file_path: str) -> dict[str, Folder]:
         """Complete processing pipeline for an OTPAuth file."""
         unarchived = self._load_and_unarchive(file_path)
@@ -99,6 +117,10 @@ def main() -> None:
         folders = processor.process_file(args.path)
         if args.export_uris is not None:
             processor.export_uris(folders, args.export_uris)
+        elif args.export_proton is not None:
+            processor.export_proton(
+                folders, args.export_proton, FolderPlacement(args.proton_folder_as)
+            )
         else:
             processor.display_all_accounts(folders, args.images_location)
     except Exception as e:
