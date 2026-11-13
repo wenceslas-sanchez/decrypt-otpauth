@@ -29,6 +29,21 @@ uv run python -m decrypt_otpauth.main --p <YOUR .otpauth LOCATION> --images-loca
 This will save QR codes as PNG images in the specified directory instead of displaying them in the terminal.
 Each image is named using the account label with a unique hash (e.g., `Google_Account_a1b2c3.png`).
 
+**Export to Proton Authenticator:**
+```bash
+uv run python -m decrypt_otpauth.main --p <YOUR .otpauth LOCATION> --export-proton <OUTPUT_FILE>.json
+```
+
+This writes a JSON file that can be imported in Proton Authenticator.
+Proton Authenticator has no folders, so the OTP Auth folder name is stored in the entry note by default.
+Use `--proton-folder-as prefix` to put it in front of the entry name instead (e.g. `Work - my account`).
+HOTP (counter-based) accounts are skipped, since Proton Authenticator only supports TOTP.
+
+**Export all URIs as plain text:**
+```bash
+uv run python -m decrypt_otpauth.main --p <YOUR .otpauth LOCATION> --export-uris <OUTPUT_FILE>
+```
+
 ## Requirements
 
 - Python 3.13+
